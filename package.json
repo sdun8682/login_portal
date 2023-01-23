@@ -1,0 +1,22 @@
+{
+  "name": "login_portal",
+  "version": "1.0.0",
+  "description": "A login portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdun8682/login_portal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sdun8682/login_portal/issues"
+  },
+  "homepage": "https://github.com/sdun8682/login_portal#readme",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}
