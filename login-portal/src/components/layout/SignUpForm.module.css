@@ -55,3 +55,8 @@ p {
   text-align: center;
   padding-top: 10%;
 }
+
+.error {
+  color: "#F61C04";
+  text-align: center;
+}

@@ -1,105 +1,102 @@
 import classes from "./SignUpForm.module.css";
 import Form from "../ui/Form";
-import React from "react";
+import React, { Component } from "react";
 
-function SignUpForm(props) {
+class SignUpForm extends Component {
   // Handles behaviour to call API when form is submitted
   //   function submitHandler(event) {
   //     // Handle data inputs here
   //   }
 
   /**
-   * Holds the state of the input data for first and last name
+   * State holds a boolean indicating whether the name fields are valid or not.
    */
-  //   constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       inputFieldData: {
-  //         name: {
-  //           first: "",
-  //           last: "",
-  //           error: false,
-  //         },
-  //       },
-  //     };
-  //   }
+  state = {
+    inputFieldData: {
+      name: {
+        isInvalid: true,
+      },
+    },
+  };
 
   /**
-   * Changes an input (first or last name) to have no spaces, as the user types it.
-   * @param {*} name - the value of the name parameter that has just changed
-   * @param {*} isFirst - a Boolean denoting if the name input being changed
-   * is the first name (true) or last name (false)
+   * Returns true if an input contains a space, false if it does not.
+   * @param {*} word - the string to be checked for spaces.
    */
-  //   inputChange(name, isFirst) {
-  //     const nameInput = name.target.value;
-  //     if (isFirst) {
-  //       const lastInput = this.state.inputFieldData.last.val;
-  //       // Set first name to have no spaces
-  //       this.setState({
-  //         inputFieldData: {
-  //           name: {
-  //             first: nameInput.split(" ").join(""),
-  //             last: lastInput,
-  //             error: false,
-  //           },
-  //         },
-  //       });
-  //     } else {
-  //       // Set last name to have no spaces
-  //       const firstInput = this.state.inputFieldData.first.val;
-  //       this.setState({
-  //         inputFieldData: {
-  //           name: {
-  //             first: nameInput.split(" ").join(""),
-  //             last: firstInput,
-  //             error: false,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }
+  checkForSpaces = (word) => {
+    return word.indexOf(" ") >= 0;
+  };
 
-  return (
-    <Form>
-      <p>Sign up here to register to the EZiD platform.</p>
-      <form className={classes.form}>
-        <div className={classes.formItem}>
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            required
-            id="firstName"
-            placeholder="John"
-            maxLength="200"
-          />
-        </div>
-        <div className={classes.formItem}>
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            required
-            id="lastName"
-            placeholder="Appleseed"
-            maxLength="200"
-          />
-        </div>
-        <div className={classes.formItem}>
-          <label htmlFor="eml">Email</label>
-          <input
-            type="email"
-            placeholder="youremail@ezid.io"
-            required
-            id="eml"
-          />
-        </div>
-        <div className={classes.submitButton}>
-          <button type="submit" className={classes.btn}>
-            Sign up
-          </button>
-        </div>
-      </form>
-    </Form>
-  );
+  /**
+   * Handles a change in one of the name fields - first or last and verifies if it is valid
+   * according to the rule that a name field may not contain spaces.
+   * @param {*} event - the input's state after being changed.
+   */
+  nameChangeHandler = (event) => {
+    const { value } = event.target;
+    const checkInvalid = this.checkForSpaces(value);
+    this.setState({
+      isInvalid: checkInvalid,
+    });
+  };
+
+  /**
+   * Renders the form.
+   * @returns the form for a user to sign up.
+   */
+  render() {
+    const { isInvalid } = this.state;
+
+    return (
+      <Form>
+        <p>Sign up here to register to the EZiD platform.</p>
+        <form className={classes.form}>
+          <div className={classes.formItem}>
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              required
+              id="firstName"
+              placeholder="John"
+              maxLength="200"
+              onChange={this.nameChangeHandler}
+            />
+          </div>
+          <div className={classes.formItem}>
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              required
+              id="lastName"
+              placeholder="Appleseed"
+              maxLength="200"
+              nChange={this.nameChangeHandler}
+            />
+          </div>
+          <div className={classes.formItem}>
+            <label htmlFor="eml">Email</label>
+            <input
+              type="email"
+              placeholder="youremail@ezid.io"
+              required
+              id="eml"
+            />
+          </div>
+          <div className={classes.submitButton}>
+            <button type="submit" className={classes.btn}>
+              Sign up
+            </button>
+          </div>
+          {/* Only renders if name text state contains spaces. */}
+          {this.state.isInvalid && (
+            <div className={classes.error} style={{ color: "#F61C04" }}>
+              <p>Spaces are not allowed in a name!</p>
+            </div>
+          )}
+        </form>
+      </Form>
+    );
+  }
 }
 
 export default SignUpForm;
