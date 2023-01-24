@@ -45,8 +45,6 @@ class SignUpForm extends Component {
    * @returns the form for a user to sign up.
    */
   render() {
-    const { isInvalid } = this.state;
-
     return (
       <Form>
         <p>Sign up here to register to the EZiD platform.</p>
@@ -59,6 +57,7 @@ class SignUpForm extends Component {
               id="firstName"
               placeholder="John"
               maxLength="200"
+              minLength="1"
               onChange={this.nameChangeHandler}
             />
           </div>
@@ -70,7 +69,8 @@ class SignUpForm extends Component {
               id="lastName"
               placeholder="Appleseed"
               maxLength="200"
-              nChange={this.nameChangeHandler}
+              minLength="1"
+              onChange={this.nameChangeHandler}
             />
           </div>
           <div className={classes.formItem}>
