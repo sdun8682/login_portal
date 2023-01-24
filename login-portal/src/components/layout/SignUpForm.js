@@ -1,6 +1,7 @@
 import classes from "./SignUpForm.module.css";
 import Form from "../ui/Form";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class SignUpForm extends Component {
   // Handles behaviour to call API when form is submitted
@@ -93,6 +94,9 @@ class SignUpForm extends Component {
               <p>Spaces are not allowed in a name!</p>
             </div>
           )}
+          <p>
+            Already have an account? <Link to="/login">Log In</Link>
+          </p>
         </form>
       </Form>
     );

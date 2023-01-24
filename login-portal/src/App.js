@@ -1,17 +1,19 @@
 import "./App.css";
-import SignUpForm from "./components/layout/SignUpForm";
+import Layout from "./components/layout/Layout";
+
+import LogInPage from "./pages/LogInPage";
+import SignUpPage from "./pages/SignUpPage";
+
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <section>
-      <h1> EZiD Portal 🔑</h1>
-      {/* <img
-        className={classes.logo}
-        src="https://uploads-ssl.webflow.com/623a1fd881c44292399f3171/63c1595bc77fbce0341e4bff_logo.png"
-        alt="logo"
-      ></img> */}
-      <SignUpForm />
-    </section>
+    <Layout>
+      <Routes>
+        <Route path="/" exact element={<SignUpPage />} />
+        <Route path="/login" element={<LogInPage />} />
+      </Routes>
+    </Layout>
   );
 }
 
