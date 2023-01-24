@@ -1,12 +1,13 @@
 import "./App.css";
+import SignUpForm from "./components/layout/SignUpForm";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1> Hello</h1>
-      </header>
-    </div>
+    <section>
+      <h1> EZiD Portal 🔑</h1>
+
+      <SignUpForm />
+    </section>
   );
 }
 

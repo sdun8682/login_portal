@@ -1,6 +1,10 @@
 .floatingform {
-  border-color: orangered;
   border-radius: 30px;
-  background-color: green;
+  background-color: #82fb8e;
+  opacity: 60%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 30%;
+  height: 40%;
+  margin: auto auto;
+  padding-bottom: 1rem;
 }
