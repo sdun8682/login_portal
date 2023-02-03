@@ -1,15 +1,33 @@
 import classes from "./SignUpForm.module.css";
 import Form from "../ui/Form";
-// import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
+/**
+ * The Sign Up form asks for the user's first, last name and email. It is displayed
+ * by default. Intended for users who have not used the portal before.
+ * @param {*} props
+ * @returns a SignUpForm object depending on it's [submit] state.
+ */
 function SignUpForm(props) {
+  /**
+   * Recording form inputs. Should be empty by default.
+   */
   const [email, setEmail] = useState();
-  // Setting it without a default
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  /**
+   * Records if the sign up form has been submitted or not.
+   */
   const [submit, setSubmit] = useState(false);
 
+  /**
+   * Sends a request to the /login endpoint that call's EZiD's /send API to generate
+   * a magic link.
+   * @param {*} e -> the submit event from the user submitting the form
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmit(true);
@@ -23,6 +41,8 @@ function SignUpForm(props) {
         },
         data: {
           email: email,
+          first: firstName,
+          last: lastName,
         },
       })
       .then((res) => {
@@ -54,6 +74,10 @@ function SignUpForm(props) {
   //     });
   //   };
 
+  /**
+   * If the user hasn't yet submitted the form, display the form, otherwise
+   * a message directing the User to their email is displayed.
+   */
   if (submit) {
     return (
       <Form>
@@ -74,6 +98,7 @@ function SignUpForm(props) {
               placeholder="John"
               maxLength="200"
               minLength="1"
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className={classes.formItem}>
@@ -85,6 +110,7 @@ function SignUpForm(props) {
               placeholder="Appleseed"
               maxLength="200"
               minLength="1"
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div className={classes.formItem}>
