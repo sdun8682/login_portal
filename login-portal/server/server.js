@@ -56,7 +56,7 @@ appAPI.post("/login", async (req, res) => {
     client_secret: process.env.CLIENT_SECRET,
     base_url_email_link: "http://localhost:3000/auth",
     expiry: "3600000",
-    push_email: "Yes", // "yes" in production, "no" in development :)
+    push_email: "No", // "yes" in production, "no" in development :)
     login_hint: userEmail,
     callback_url: "http://localhost:3000/",
   };
@@ -107,29 +107,30 @@ appAPI.post("/auth", async (req, res) => {
 
     var token = verifyJWT(accessToken);
 
-    // if (token === "JWT Expired") {
-    //   const refresh = await axios.post(
-    //     "https://api.ezid.io/email-link/refresh",
-    //     {
-    //       client_id: process.env.CLIENT_ID,
-    //       client_secret: process.env.CLIENT_SECRET,
-    //       refresh_token: refreshToken,
-    //     }
-    //   );
-    //   console.log("refreshing....");
-    //   // If refreshing, overwrite the previous expired tokens
-    //   accessToken = refresh.data.access_token;
-    //   idToken = refresh.data.id_token;
-    //   refreshToken = refresh.data.refresh_token;
-    //   token = verifyJWT(accessToken);
-    // }
+    // if token is expired, use the /refresh API to make tokens
+    // valid again
+    if (token === "JWT Expired") {
+      const refresh = await axios.post(
+        "https://api.ezid.io/email-link/refresh",
+        {
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          refresh_token: refreshToken,
+        }
+      );
+      // If refreshing, overwrite the previous expired tokens
+      accessToken = refresh.data.access_token;
+      idToken = refresh.data.id_token;
+      refreshToken = refresh.data.refresh_token;
+      token = verifyJWT(accessToken);
+    }
 
     // Add sub to database for identifying users from just their access token later.
     addSub(email, token.sub);
 
-    // Set 24 hour expiry for the cookie.
+    // Set 1 hour expiry for the cookie containing the access token.
     const currentDate = new Date();
-    const expiryDate = new Date(currentDate.getTime() + 86400000);
+    const expiryDate = new Date(currentDate.getTime() + 3600000);
 
     // Create a cookie containing the Access Token and send to frontend.
     res
